@@ -37,8 +37,34 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+function getMorseCodeFromBinCode(binCode) {
+    const morseCode = [];
+    const size = 2;
+
+    for (let begin = 0; begin + size <= binCode.length; begin += size) {
+        const num = +(binCode.substring(begin, begin + size));
+        if (num === 10) {
+            morseCode.push('.');
+        } else if (num === 11) {
+            morseCode.push('-');
+        }
+    }
+
+    return morseCode.join('');
+}
+
 function decode(expr) {
-    // write your solution here
+    const resultLineArray = [];
+    const size = 10;
+    const space = '*'.repeat(size);
+
+    for (let begin = 0; begin + size <= expr.length; begin += size) {
+        const code = expr.substring(begin, begin + size);
+        const char = code === space ? ' ' : MORSE_TABLE[getMorseCodeFromBinCode(code)];
+        resultLineArray.push(char);
+    }
+
+    return resultLineArray.join('');
 }
 
 module.exports = {
